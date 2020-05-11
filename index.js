@@ -32,18 +32,12 @@ async function dockerLogin() {
   } else {
     config = { auths: {} };
   }
-  console.log(`${context.actor}:${token}`);
   config.auths["docker.pkg.github.com"] = {
     auth: Buffer.from(`${context.actor}:${token}`).toString("base64")
   };
 
   await fs.outputJson(dockerConfigPath, config);
   process.env["DOCKER_CONFIG"] = dirPath;
-  console.log(
-    `DOCKER_CONFIG environment variable is set to : ${
-      process.env["DOCKER_CONFIG"]
-    }`
-  );
 }
 
 function parseVersion(gitRef) {

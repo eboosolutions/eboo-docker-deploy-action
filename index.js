@@ -79,7 +79,6 @@ async function run() {
   let buildCmd = `docker build . --tag ${imageTag}`;
   let arg = core.getInput("arg");
   if (arg) buildCmd += ` --build-arg ${arg}`;
-  await runCmd("ls -a");
   await runCmd(buildCmd);
 
   let pushCmd = `docker push ${imageTag}`;

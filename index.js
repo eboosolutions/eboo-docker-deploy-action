@@ -67,7 +67,7 @@ async function runCmd(cmd) {
 
 async function run() {
   const repository = context.repo;
-  const imageName = core.getInput("image-name") || context.repo.repo;
+  const imageName = core.getInput("name") || context.repo.repo;
   const version = parseVersion(core.getInput("ref"));
 
   let imageTag = `docker.pkg.github.com/${context.repo.owner}/${context.repo.repo}/${imageName}:${version}`.toLowerCase();
@@ -78,6 +78,7 @@ async function run() {
 
   let buildCmd = `docker build . --tag ${imageTag}`;
   let arg = core.getInput("arg");
+  console.log(arg, ` --build-arg ${arg}`);
   if (arg) buildCmd += ` --build-arg ${arg}`;
   await runCmd(buildCmd);
 

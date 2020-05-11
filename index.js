@@ -1,7 +1,6 @@
 const core = require("@actions/core");
 const github = require("@actions/github");
 const { exec } = require("@actions/exec");
-const { issueCommand } = require("@actions/core/lib/command");
 
 const path = require("path");
 const fs = require("fs-extra");
@@ -39,9 +38,12 @@ async function dockerLogin() {
   };
 
   await fs.outputJson(dockerConfigPath, config);
-  issueCommand("set-env", { name: "DOCKER_CONFIG" }, dirPath);
-  console.log(process.env["DOCKER_CONFIG"]);
-  console.log("DOCKER_CONFIG environment variable is set");
+  process.env["DOCKER_CONFIG"] = dirPath;
+  console.log(
+    `DOCKER_CONFIG environment variable is set to : ${
+      process.env["DOCKER_CONFIG"]
+    }`
+  );
 }
 
 function parseVersion(gitRef) {
@@ -77,6 +79,8 @@ async function run() {
   core.setOutput("image-tag", imageTag);
 
   await dockerLogin();
+
+  await "echo $DOCKER_CONFIG";
 
   let buildCmd = `docker build . --tag ${imageTag}`;
   let arg = core.getInput("arg");

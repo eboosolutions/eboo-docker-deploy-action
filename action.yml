@@ -15,5 +15,5 @@ outputs:
   tag: # id of output
     description: The image's tag
 runs:
-  using: node12"
+  using: node12
   main: index.js

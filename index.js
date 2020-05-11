@@ -33,12 +33,14 @@ async function dockerLogin() {
   } else {
     config = { auths: {} };
   }
+  console.log(`${context.actor}:${token}`);
   config.auths["docker.pkg.github.com"] = {
     auth: Buffer.from(`${context.actor}:${token}`).toString("base64")
   };
 
   await fs.outputJson(dockerConfigPath, config);
   issueCommand("set-env", { name: "DOCKER_CONFIG" }, dirPath);
+  console.log(process.env["DOCKER_CONFIG"]);
   console.log("DOCKER_CONFIG environment variable is set");
 }
 

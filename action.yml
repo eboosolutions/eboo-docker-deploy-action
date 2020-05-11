@@ -7,8 +7,8 @@ inputs:
   name:
     decription: The name of the image
     default: "" # automatically set by script
-  arg: # id of input
-    description: Will be passed with --build-arg
+  args:
+    description: CVS of arg (used with 'docker build --build-arg')
     required: false
     default: ""
 outputs:

@@ -78,11 +78,11 @@ async function run() {
 
   let buildCmd = `docker build . --tag ${imageTag}`;
   let args = core.getInput("args");
-  if (args) buildCmd += core;
-  args
-    .split(",")
-    .map(arg => ` --build-arg ${arg}`)
-    .join("");
+  if (args)
+    buildCmd += args
+      .split(",")
+      .map(arg => ` --build-arg ${arg}`)
+      .join("");
   await runCmd(buildCmd);
 
   let pushCmd = `docker push ${imageTag}`;

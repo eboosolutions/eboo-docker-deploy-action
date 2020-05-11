@@ -1,0 +1,19 @@
+name: Eboo Docker Deploy
+description: Build and Publish a docker image injecting env var
+inputs:
+  ref: # id of input
+    description: Github ref (will be used to parse the version)
+    required: true
+  name:
+    decription: The name of the image
+    default: "" # automatically set by script
+  arg: # id of input
+    description: Will be passed with --build-arg
+    required: false
+    default: ""
+outputs:
+  tag: # id of output
+    description: The image's tag
+runs:
+  using: node12"
+  main: index.js

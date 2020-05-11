@@ -53,10 +53,10 @@ function parseVersion(gitRef) {
 
 async function runCmd(cmd) {
   await exec(cmd, {
-    stdout: (data: Buffer) => {
+    stdout: data => {
       core.info(data.toString());
     },
-    stderr: (data: Buffer) => {
+    stderr: data => {
       core.error(data.toString());
     }
   });

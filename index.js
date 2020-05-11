@@ -29,6 +29,8 @@ async function dockerLogin() {
       // if the file is invalid, just overwrite it
       config = { auths: {} };
     }
+  } else {
+    config = { auths: {} };
   }
   config.auths["docker.pkg.github.com"] = {
     auth: Buffer.from(`${context.actor}:${token}`).toString("base64")

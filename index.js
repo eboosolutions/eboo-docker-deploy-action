@@ -55,7 +55,7 @@ function parseVersion(gitRef) {
 }
 
 async function runCmd(cmd) {
-  await exec(cmd, {
+  await exec(cmd, undefined, {
     stdout: data => {
       core.info(data.toString());
     },
@@ -78,7 +78,6 @@ async function run() {
 
   let buildCmd = `docker build . --tag ${imageTag}`;
   let arg = core.getInput("arg");
-  console.log(arg, ` --build-arg ${arg}`);
   if (arg) buildCmd += ` --build-arg ${arg}`;
   await runCmd(buildCmd);
 

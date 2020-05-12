@@ -64,8 +64,6 @@ async function runCmd(cmd) {
 }
 
 async function run() {
-  process.env["NPM_TOKEN"] = "54e86578-ef71-4014-bd86-bb27eebc9a36";
-
   const repository = context.repo;
   const imageName = core.getInput("name") || context.repo.repo;
   const version = parseVersion(core.getInput("ref"));

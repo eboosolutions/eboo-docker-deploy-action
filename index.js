@@ -64,6 +64,8 @@ async function runCmd(cmd) {
 }
 
 async function run() {
+  console.log(`env ${JSON.stringify(process.env)}`);
+
   const repository = context.repo;
   const imageName = core.getInput("name") || context.repo.repo;
   const version = parseVersion(core.getInput("ref"));
@@ -83,9 +85,11 @@ async function run() {
       .split(",")
       .map(arg => ` --build-arg ${arg}`)
       .join("");
+  console.log(`build command : ${buildCmd}`);
   await runCmd(buildCmd);
 
   let pushCmd = `docker push ${imageTag}`;
+  console.log(`push command : ${pushCmd}`);
   await runCmd(pushCmd);
 }
 

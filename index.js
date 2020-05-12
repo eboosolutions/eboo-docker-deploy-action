@@ -64,8 +64,6 @@ async function runCmd(cmd) {
 }
 
 async function run() {
-  console.log(`env ${JSON.stringify(process.env)}`);
-
   const repository = context.repo;
   const imageName = core.getInput("name") || context.repo.repo;
   const version = parseVersion(core.getInput("ref"));

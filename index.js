@@ -90,6 +90,7 @@ async function run() {
 
   let isLatest = true;
   if (isLatest) {
+    console.log("setting latest tag");
     let latestTag = `docker.pkg.github.com/${context.repo.owner}/${context.repo.repo}/${imageName}:latest`.toLowerCase();
     await runCmd(`docker tag ${imageTag} ${latestTag}`);
     await runCmd(`docker push ${latestTag}`);

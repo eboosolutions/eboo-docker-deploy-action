@@ -62,8 +62,9 @@ async function runCmd(cmd) {
     },
   });
 }
-
+const VERSION = require("./package.json").version;
 async function run() {
+  console.log(`eboo-docker-deploy-action v${VERSION}`);
   const repository = context.repo;
   const imageName = core.getInput("name") || context.repo.repo;
   const version = parseVersion(core.getInput("ref"));

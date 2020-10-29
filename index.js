@@ -33,7 +33,7 @@ async function dockerLogin() {
     config = { auths: {} };
   }
   config.auths["docker.pkg.github.com"] = {
-    auth: Buffer.from(`${context.actor}:${token}`).toString("base64")
+    auth: Buffer.from(`${context.actor}:${token}`).toString("base64"),
   };
 
   await fs.outputJson(dockerConfigPath, config);
@@ -54,12 +54,12 @@ function parseVersion(gitRef) {
 
 async function runCmd(cmd) {
   await exec(cmd, undefined, {
-    stdout: data => {
+    stdout: (data) => {
       core.info(data.toString());
     },
-    stderr: data => {
+    stderr: (data) => {
       core.error(data.toString());
-    }
+    },
   });
 }
 
@@ -74,14 +74,12 @@ async function run() {
 
   await dockerLogin();
 
-  await "echo $DOCKER_CONFIG";
-
   let buildCmd = `docker build . --tag ${imageTag}`;
   let args = core.getInput("args");
   if (args)
     buildCmd += args
       .split(",")
-      .map(arg => ` --build-arg ${arg}`)
+      .map((arg) => ` --build-arg ${arg}`)
       .join("");
   console.log(`build command : ${buildCmd}`);
   await runCmd(buildCmd);
@@ -89,6 +87,13 @@ async function run() {
   let pushCmd = `docker push ${imageTag}`;
   console.log(`push command : ${pushCmd}`);
   await runCmd(pushCmd);
+
+  let isLatest = true;
+  if (isLatest) {
+    let latestTag = `docker.pkg.github.com/${context.repo.owner}/${context.repo.repo}/${imageName}:latest`.toLowerCase();
+    await runCmd(`docker tag ${imageTag} ${latestTag}`);
+    await runCmd(`docker push ${latestTag}`);
+  }
 }
 
-run().catch(error => core.setFailed(error.message));
+run().catch((error) => core.setFailed(error.message));
